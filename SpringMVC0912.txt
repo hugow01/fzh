@@ -1,0 +1,14 @@
+Controller
+1.接收資料
+2.驗證資料
+3.轉換資料
+4.呼叫MODEL
+5.根據MODEL執行結果呼叫View
+
+HandlerMapping 本身是INTERFACE
+主要是做設定
+最常用的HandlerMapping介面為 RequestMappingHandlerMapping
+負責讀取@RequestMapping 判斷HTTPRequest由哪個Controller處理
+
+HTTPRequest Header是 瀏覽器端產生
+無法透過SERVER端修改(唯讀的)
