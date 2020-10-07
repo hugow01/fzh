@@ -1,0 +1,29 @@
+EMP
+Deptno empNo empName 
+2	1	Bob
+2	1	Ann
+
+DEPT
+Deptno DeptName DeptLoc
+1	內庫部	US
+2	兵棋部	EU
+
+
+List<deptBean> dList=  deptSvc.getAll();
+List<empBean> eList = empSvc.select_by_empno(1);
+
+Map dmap = new HashMap<Integer, Map<String, String>>();
+
+for(deptBean db : dList){
+Map<String, String> submap=new HashMap<String, String>()
+submap.add("name",db.getdeptName());
+submap.add("loc", db.getdeptLoc());
+dmap.add(db.getDeptno,submap);
+}
+
+
+for(empBean eb: eList){
+dmap.get(eb.getdeptNo()).get("name");
+dmap.get(eb.getdeptNo()).get("loc");
+eb.getempName;
+}
