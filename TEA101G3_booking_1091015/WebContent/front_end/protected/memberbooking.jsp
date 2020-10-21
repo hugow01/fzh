@@ -108,7 +108,7 @@
 		  	</div>
 		</aside>
 
-		<div id="colorlib-contact" style="height:2000px;width:500px;margin-left:300px;margin-right:300px;">
+		<div id="colorlib-contact" style="height:2000px;width:500px;margin-left:300px;margin-right:300px; background-image: url(<%=request.getContextPath()%>/front_end/images/bg1.png);background-position:right bottom;background-size:contain;background-repeat:no-repeat;">
 		  <div>
 			  <jsp:include page="./booking/MemberBooking.jsp">
 			  	<jsp:param value="${bList}" name="bList"/>

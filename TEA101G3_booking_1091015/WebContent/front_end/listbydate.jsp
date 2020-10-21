@@ -117,7 +117,7 @@
 			</div>
 		</aside>
 
-		<div id="colorlib-contact">
+		<div id="colorlib-contact" style="background-image: url(<%=request.getContextPath()%>/front_end/images/bg1460x1460.png);background-position:right bottom;background-size:contain;background-repeat:no-repeat;">
 			<div class="container">
 				<div class="row">
 				<div class="horoscope_section" >

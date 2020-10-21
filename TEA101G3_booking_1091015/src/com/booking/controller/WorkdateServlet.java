@@ -54,7 +54,10 @@ public class WorkdateServlet extends HttpServlet{
 				WorkdateService workSvc = new WorkdateService();
 				WorkdateBean wBean = new WorkdateBean();
 				List<WorkdateBean> subList = workSvc.getOne(manID);
-				System.out.println("subList Size: " + subList.size());
+				for(WorkdateBean wb :subList) {
+					System.out.println("subList : " + wb);
+				}
+				
 				List< List<String>> wList = new ArrayList<List<String>>();
 				Map<String,List<String>> wMap= new HashMap<String,List<String>>();
 				if(subList.size()>0) {
@@ -66,11 +69,7 @@ public class WorkdateServlet extends HttpServlet{
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					
 					for(WorkdateBean wb :subList) {
-						System.out.println("wMap in");
 						String wkey = (wb.getMan_id()+sdf.format(wb.getWdate()));
-						System.out.println("wkey"+wkey);
-						System.out.println("dateKey"+dateKey);
-						System.out.println("equals?"+wkey.equals(dateKey));
 						if(! wkey.equals(dateKey)){
 							dateKey=wkey;
 							List<String> sList = new ArrayList<String>();
@@ -83,7 +82,6 @@ public class WorkdateServlet extends HttpServlet{
 						}
 					}
 				}
-				System.out.println("map size:"+wMap.size());
 				req.setAttribute("wMap", wMap); 
 				req.setAttribute("man_id", manID);
 				String url = "/front_end/avaliblelistone.jsp";
@@ -187,7 +185,7 @@ public class WorkdateServlet extends HttpServlet{
 				}
 				
 			}catch(SQLException sqe) {
-				System.out.println("撌乩���挾����");
+				System.out.println("時段重複");
 				String url = "/back_end/booking/WorkingDateSet.jsp";
 				RequestDispatcher filedView = req.getRequestDispatcher(url);
 				filedView.forward(req, res);

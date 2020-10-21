@@ -38,7 +38,7 @@ public class WorkdateDAOjdbc implements WorkdateDAO_interface {
 	
 //	private DataSource dataSource;
 //	private final String dsName = "java:comp/env/jdbc/TEA101G3"; 
-	private static final String SELECT_BY_MAN_ID = "select * from MAN_WORKDATE where MAN_ID=?";
+	private static final String SELECT_BY_MAN_ID = "select * from MAN_WORKDATE where MAN_ID=? order by wdate";
 	private static final String SELECT_ALL = "select * from MAN_WORKDATE order by man_id,wdate";
 	private static final String INSERT = "INSERT INTO MAN_WORKDATE(MAN_ID,ACCOUNT,WDATE,WTIME) values( ?,?,?,?) ";
 	private static final String DELETE = "delete from MAN_WORKDATE where MAN_ID=? and WDATE=? and WDATE=?";
@@ -227,7 +227,8 @@ public class WorkdateDAOjdbc implements WorkdateDAO_interface {
 	
 	public List<WorkdateBean> Bequals(List<BookingBean> bList){
 		WorkdateDAOjdbc workDAO = new WorkdateDAOjdbc();
-		List<WorkdateBean> wList = workDAO.getAll();
+		Integer manID = bList.get(0).getMan_id();
+		List<WorkdateBean> wList = workDAO.select(manID);
 		List<WorkdateBean> list = wList.stream()
 					.filter(w -> bList.stream() 
 									.noneMatch(b -> w.getMan_id() == b.getMan_id() && 

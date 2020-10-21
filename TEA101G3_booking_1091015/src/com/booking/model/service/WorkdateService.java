@@ -52,9 +52,13 @@ public class WorkdateService {
 		wList = new ArrayList<WorkdateBean>();
 		wList = workdateDAO.Bequals(blist);
 		
+		for(WorkdateBean wb : wList) {
+			System.out.println("Workdate service:"+wb);
+		}
+		
 			
 		
-		System.out.println("workDate getOne"+wList);
+		
 		
 			
 			

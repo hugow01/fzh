@@ -1,5 +1,6 @@
 package com.booking.model.service;
 
+import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
 
@@ -50,19 +51,20 @@ public class BookingService {
 				result = temp;
 			}
 		}else {
-			result = bookingDAO.select_all();
+			result = null;
 		}
 		return result;
 	}
 	
-	public List<BookingBean> insert(BookingBean bean) {
+	public List<BookingBean> insert(BookingBean bean) throws SQLException {
 		List<BookingBean> result =null;
 		if(bean != null) {
 			if(bookingDAO.insert(bean)==1) {
 				System.out.println("Insert Success");
-				result = bookingDAO.select_man(bean.getMan_id());
+				result = bookingDAO.select_email(bean.getEmail());
 			}
 		}else {
+			System.out.println("Insert failed");
 			result = bookingDAO.select_all();
 		}
 		return result;

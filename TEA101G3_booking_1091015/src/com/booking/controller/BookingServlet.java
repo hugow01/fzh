@@ -2,6 +2,7 @@ package com.booking.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
@@ -189,7 +190,18 @@ public class BookingServlet extends HttpServlet {
 					/***************************2.嚙踝蕭��蕭����筆嚙踝嚙踝蕭***************************************/
 					BookingService bookingSvc = new BookingService();
 					System.out.println("Insert:"+bBean);
-					List<BookingBean> bList=bookingSvc.insert(bBean);
+					List<BookingBean> bList=null;
+					try {
+						bList = bookingSvc.insert(bBean);
+						for(BookingBean bb : bList) {
+							System.out.println("Book Servlet bb: "+bb.getEmail());
+						}
+					} catch (SQLException e) {
+						RequestDispatcher failureView = req
+								.getRequestDispatcher("/booking/listManager.jsp");
+						failureView.forward(req, res);
+						e.printStackTrace();
+					}
 					
 					/***************************3.嚙踐��竣嚙踝嚙踝蕭,��□嚙踐�蕭�瞍�(Send the Success view)***********/
 					req.setAttribute("bList", bList); 

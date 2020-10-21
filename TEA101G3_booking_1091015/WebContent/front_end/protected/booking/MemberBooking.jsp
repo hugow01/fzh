@@ -11,6 +11,9 @@
 
 <%
 List<BookingBean> bList = (List<BookingBean>) request.getAttribute("bList");
+	if(bList.size()<=0){
+		System.out.println("No booking record.");
+	}
 	System.out.println("List Mem");
 	for(BookingBean bB : bList){
 		System.out.println(bB);
@@ -56,6 +59,16 @@ List<BookingBean> bList = (List<BookingBean>) request.getAttribute("bList");
 				<th>預約時間</th>
 				<th>預約時段</th>				
 			</tr>
+			<c:if test="${bList.size()<=0}">
+				<tr>
+					<td colspan='3'>
+						無預約紀錄
+					</td>
+					<td>
+						<a href='<%=request.getContextPath()%>/front_end/listManager.jsp'>來去預約!</a>
+					</td>
+				</tr>
+			</c:if>
 			
 			<c:forEach var="bBean" items="${bList}" >
 				<tr>

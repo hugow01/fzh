@@ -12,7 +12,11 @@
 	Map<String,List<String>> wMap = (Map<String,List<String>>) request.getAttribute("wMap");
 	pageContext.setAttribute("wMap", wMap);
 	for(List<String> e :wMap.values()){
-		System.out.println("wMap"+e.size());
+		System.out.println("wMap:");
+		for(String str : e){
+			System.out.print(str+ ",");
+		}
+		
 	}
 	
     MemberVO userb = (MemberVO) session.getAttribute("user");
@@ -71,7 +75,7 @@
   				<c:forEach var="mVO" items="${mSvc.all}">
 	  				<c:if test="${mVO.man_id==man_id}">
 	  					<th colspan='6'>
-	  						${mVO.name} : <c:forEach var="mVO" items="${mSvc.all}">
+	  						${mVO.nickname} : <c:forEach var="mVO" items="${mSvc.all}">
 							<c:if test="${mVO.man_id==man_id}">
 								<c:choose>
 									<c:when test="${mVO.authority == 2}">
@@ -126,8 +130,7 @@
 						<c:when test="${'DAY'==wBean.get(2)}">
 							<td>
 								<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/booking/booking.do" onsubmit="return Confirmclick();" style="margin-bottom: 0px;">
-									<input type="button" class='insert' value="上午" />
-									<input type="submit" id='confirm_btn' style='display:none;'>
+									<input type="submit" id='confirm_btn'value="上午" >
 								    <input type='hidden' name='man_id' value='${man_id}'>
 								    <input type='hidden' name='email' value='${email}'>
 								    <input type='hidden' name='wdate' class='wdate' value='${wBean.get(1)}'>
@@ -200,8 +203,7 @@
 						<c:when test="${wBean.size()>3 &&'NIGHT'==wBean.get(3)}">
 							<td>
 								<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/booking/booking.do" onsubmit="return Confirmclick();" style="margin-bottom: 0px;">
-									<input type="button" class='insert' value="晚上" onclick="Confirmclick()"/>
-									<input type="submit" id='confirm_btn' style='display:none;'>
+									<input type="submit" id='confirm_btn' value="晚上">
 								    <input type='hidden' name='man_id' value='${man_id}'>
 								    <input type='hidden' name='email' value='${email}'>
 								    <input type='hidden' name='wdate' value='${wBean.get(1)}'>
@@ -213,8 +215,7 @@
 						<c:when test="${wBean.size()>4 &&'NIGHT'==wBean.get(4)}">
 							<td>
 								<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/booking/booking.do" onsubmit="return Confirmclick();" style="margin-bottom: 0px;">
-									<input type="button" class='insert' value="晚上" onclick="Confirmclick() "/>
-									<input type="submit" id='confirm_btn' style='display:none;'>
+									<input type="submit" id='confirm_btn' value="晚上">
 								    <input type='hidden' name='man_id' value='${man_id}'>
 								    <input type='hidden' name='email' value='${email}'>
 								    <input type='hidden' name='wdate' value='${wBean.get(1)}'>
@@ -251,20 +252,20 @@
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script type="text/javascript">
-   	$('input.insert').on('click',function(){
-   		console.log($(this).closest('input[name="email"]').val());
-   		   		if($('input[name="email"]').val()=='noLogin'){
-   		   			alert('請先登入');
-   		   			$('input#confirm_btn').click();
-   		   		}else{
-   		   			if(confirm('確認預約?')){
-   		   	   			console.log('sure');
-   		   	   		$(this).closest('input#confirm_btn').click();
+//    	$('input.insert').on('click',function(){
+//    		console.log($(this).closest('input[name="email"]').val());
+//    		   		if($('input[name="email"]').val()=='noLogin'){
+//    		   			alert('請先登入');
+//    		   			$('input#confirm_btn').click();
+//    		   		}else{
+//    		   			if(confirm('確認預約?')){
+//    		   	   			console.log('sure');
+//    		   	   		$(this).closest('input#confirm_btn').click();
    		   	   			
-   		   	   		}else{console.log('no');}
-   		   		}
+//    		   	   		}else{console.log('no');}
+//    		   		}
    		
-   	});
+//    	});
    	
 //    	$('input#confirm_btn').on('click',function(){
 //    		console.log($(this).closest('input[name="email"]').val());
