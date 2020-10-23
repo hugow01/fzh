@@ -38,7 +38,7 @@ public class WorkdateServlet extends HttpServlet{
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		
-		if ("select_one".equals(action)) { // 靘Booking.jsp�����
+		if ("select_one".equals(action)) { // ���Booking.jsp嚙踝蕭��蕭��蕭嚙�
 			
 
 //			List<String> errorMsgs = new LinkedList<String>();
@@ -47,16 +47,20 @@ public class WorkdateServlet extends HttpServlet{
 //			req.setAttribute("errorMsgs", errorMsgs);
 //			
 			try {
-//				/***************************1.��隢��****************************************/
+//				/***************************1.嚙踐�蕭����蕭蹇蕭��****************************************/
 				Integer manID = new Integer(req.getParameter("man_id"));
 				
-				/***************************2.���閰Ｚ���****************************************/
+				/***************************2.嚙踝蕭��蕭���嚗綽蕭�嚙踝蕭****************************************/
 				WorkdateService workSvc = new WorkdateService();
 				WorkdateBean wBean = new WorkdateBean();
-				List<WorkdateBean> subList = workSvc.getOne(manID);
-				for(WorkdateBean wb :subList) {
-					System.out.println("subList : " + wb);
-				}
+				java.util.Date now = new java.util.Date();
+				Date nowDate = new Date(now.getTime());
+				List<WorkdateBean> subList = workSvc.getOne(manID).stream()
+																	.filter(p -> p.getWdate().after(nowDate))
+																	.collect(Collectors.toList());
+//				for(WorkdateBean wb :subList) {
+//					System.out.println("subList : " + wb);
+//				}
 				
 				List< List<String>> wList = new ArrayList<List<String>>();
 				Map<String,List<String>> wMap= new HashMap<String,List<String>>();
@@ -67,6 +71,7 @@ public class WorkdateServlet extends HttpServlet{
 					
 					String dateKey = null;
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					
 					
 					for(WorkdateBean wb :subList) {
 						String wkey = (wb.getMan_id()+sdf.format(wb.getWdate()));
@@ -88,9 +93,9 @@ public class WorkdateServlet extends HttpServlet{
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 //
-//				/***************************�隞���隤方���**********************************/
+//				/***************************嚙踝���□�嚙踝�蕭嚙踝���嚙踐嚙踝蕭**********************************/
 			} catch (Exception e) {
-				System.out.println("�瘜���耨������:" + e.getMessage());
+				System.out.println("嚙踝���蕭謘潘蕭謅蕭蹓箄�剁蕭��蕭嚙踝�蕭�嚙踝蕭:" + e.getMessage());
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/front_end/listManager.jsp");
 				failureView.forward(req, res);
@@ -103,12 +108,16 @@ public class WorkdateServlet extends HttpServlet{
 			try {
 				Integer auth = Integer.parseInt(req.getParameter("svcType"));
 				Date bdate =  new Date(sdf.parse(req.getParameter("wdate")).getTime());
-				System.out.println("Auth:"+auth+" Date:"+bdate);
+				req.setAttribute("wbdate", bdate);
+//				System.out.println("Auth:"+auth+" Date:"+bdate);
 				WorkdateService workSvc = new WorkdateService();
 				ManagerService mSvc = new ManagerService();
+				java.util.Date now = new java.util.Date();
+				Date nowDate = new Date(now.getTime());
 				List<ManagerVO> mlist=null;
 				List<WorkdateBean> wList= workSvc.getAll().stream()
 															.filter(e -> e.getWdate().equals(bdate))
+															.filter(p -> p.getWdate().after(nowDate))
 															.collect(Collectors.toList());
 				if(auth!=0) {
 					 mlist =mSvc.getManagerDetail().stream()
@@ -118,15 +127,15 @@ public class WorkdateServlet extends HttpServlet{
 					 mlist =mSvc.getManagerDetail();
 				}
 				
-				for(ManagerVO mmbean : mlist) {
-					System.out.println("servlet_M"+mmbean.getAccount());
-				}
+//				for(ManagerVO mmbean : mlist) {
+//					System.out.println("servlet_M"+mmbean.getAccount());
+//				}
 				Map<Integer, List<String>> mmap = new HashMap<Integer, List<String>>();
 				for(ManagerVO mvo : mlist) {
 					Integer mid = (int) mvo.getMan_id();
 					Integer authInt =mvo.getAuthority();
 					List<String> sublist = new ArrayList<String>();
-					sublist.add(mvo.getName());
+					sublist.add(mvo.getNickname());
 					sublist.add(authInt.toString());
 					sublist.add(mvo.getDescription());
 					mmap.put(mid , sublist);
@@ -139,8 +148,9 @@ public class WorkdateServlet extends HttpServlet{
 //					System.out.println(mmap.get(wList.get(i).getMan_id()).get(2));
 //					System.out.println(wList.get(i).toString());
 //				}
-					req.setAttribute("mmap", mmap); //頧漱�����ap
-					req.setAttribute("wList", wList); //頧漱List
+					req.setAttribute("mmap", mmap); //��瞍梧蕭嚙踝嚙踝��蕭嚙踝ap
+					req.setAttribute("wList", wList); //��瞍尉ist
+					
 //					String url = "/front_end/booking/List_by_Date.jsp";
 					String url ="/front_end/listbydate.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url);
@@ -153,7 +163,7 @@ public class WorkdateServlet extends HttpServlet{
 				
 //				req.setAttribute("dList", dList); 
 //				String url = "/booking/avalible_listone.jsp";
-//				RequestDispatcher successView = req.getRequestDispatcher(url);// ����漱 update_emp_input.jsp
+//				RequestDispatcher successView = req.getRequestDispatcher(url);// 嚙踝蕭��蕭賹蕭�瞍� update_emp_input.jsp
 //				successView.forward(req, res);
 				
 			}catch(Exception e) {
@@ -167,6 +177,7 @@ public class WorkdateServlet extends HttpServlet{
 		
 		if ("insert".equals(action)) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String errMsg="";
 			
 			try {
 				Integer man_id = Integer.parseInt(req.getParameter("man_id"));
@@ -185,7 +196,9 @@ public class WorkdateServlet extends HttpServlet{
 				}
 				
 			}catch(SQLException sqe) {
-				System.out.println("時段重複");
+				errMsg="��挾�������隞�挾";
+				req.setAttribute("errMsg", errMsg);
+				System.out.println("��挾����");
 				String url = "/back_end/booking/WorkingDateSet.jsp";
 				RequestDispatcher filedView = req.getRequestDispatcher(url);
 				filedView.forward(req, res);

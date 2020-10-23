@@ -91,9 +91,7 @@
 	<div class="colorlib-loader"></div>
 	<div id="page">
         <!-- menu -->
-	    <jsp:include page="./menu.jsp" >
-	    	<jsp:param name="user" value="${user}" />
-	    </jsp:include>
+	    <%@ include file="./menu.jsp" %>
 		<aside id="colorlib-hero" class="colorlib-degree-bg">
 			<div class="flexslider">
 				<ul class="slides">
@@ -125,7 +123,7 @@
 
 <!-- **************************************************  網頁內容 東西放在這！ START!  ************************************************** -->
 			
-			<jsp:include  page="/front_end/booking/avalible_listone.jsp">
+			<jsp:include  page="/front_end/booking/avalible_listone2.jsp">
 			     	<jsp:param name="wMap" value="${wMap}" />
 			     	<jsp:param name="man_id" value="${man_id}" />
           	</jsp:include>	

@@ -124,7 +124,7 @@
 
 <!-- **************************************************  網頁內容 東西放在這！ START!  ************************************************** -->
 			
-				<jsp:include  page="/front_end/booking/List_by_Date.jsp">
+				<jsp:include  page="/front_end/booking/List_by_Date2.jsp">
 			     	<jsp:param name="mmap" value="${mmap}" />
 			     	<jsp:param name="wList" value="${wList}" />
 			     	<jsp:param name="user" value="${user}" />

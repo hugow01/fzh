@@ -52,21 +52,9 @@ public class WorkdateService {
 		wList = new ArrayList<WorkdateBean>();
 		wList = workdateDAO.Bequals(blist);
 		
-		for(WorkdateBean wb : wList) {
-			System.out.println("Workdate service:"+wb);
-		}
-		
-			
-		
-		
-		
-			
-			
-//		List<WorkdateBean> rsList = (List<WorkdateBean>) workdateDAO.select(man_id).stream()
-//				.filter(w -> blist.stream()
-//						.filter(b -> b.getMan_id()==w.getMan_id())
-//						.collect(Collectors.toList()))
-//				.collect(Collectors.toList());
+//		for(WorkdateBean wb : wList) {
+//			System.out.println("Workdate service:"+wb);
+//		}
 		return wList;
 	}
 	

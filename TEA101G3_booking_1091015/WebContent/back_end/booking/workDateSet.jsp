@@ -29,16 +29,32 @@
 </style>
 </head>
 <body>
+<%
+	String errMsg= (String)request.getAttribute("errMsg");
+	if(errMsg!=null){
+		out.println("<script>");
+		out.println("window.onload=function(){alert('"+errMsg+"')}");
+		out.println("</script>");
+	}
+%>
+
 <button onclick="window.location.href = '<%=request.getContextPath()%>/back_end/booking/booking_listone.jsp'">查詢預約單</button>
 <%
          List<ManagerVO> user = (List<ManagerVO>) session.getAttribute("user");
+		
+			if(user==null){
+				System.out.print("user:"+user);
+				response.sendRedirect( request.getContextPath()+"/back_end/login/login.jsp");
+				System.out.print("redirect");
+			}
          pageContext.setAttribute("user", user);
+         
 %>
 <%		
 		List<ManagerVO> mlist = new ArrayList<ManagerVO>();
-		int manid =(int) user.get(0).getMan_id();
+		int auth =(int) user.get(0).getAuthority();
 		ManagerService mSsvc = new ManagerService();
-		if(manid==1){
+		if(auth==1){
 			mlist = mSvc.getAll().stream()
 									.filter(p -> p.getAuthority()>1)
 									.collect(Collectors.toList());
@@ -60,7 +76,7 @@
 		
 		WorkdateService wSvc = new WorkdateService();
 		List<WorkdateBean> wList = new ArrayList<WorkdateBean>();
-		if(manid==1){
+		if(auth==1){
 			wList = wSvc.selectAll();
 // 			pageContext.setAttribute("wlist", wList);
 		}else{
@@ -238,9 +254,8 @@
 		
 	</table>
 	
-	<script type="text/javascript">
-		
-	</script>
+	<script src="<%=request.getContextPath()%>/back_end/vendor/jquery/jquery.min.js"></script>
+	
 	
 
 </body>

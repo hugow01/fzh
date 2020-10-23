@@ -189,13 +189,13 @@ public class BookingServlet extends HttpServlet {
 					
 					/***************************2.嚙踝蕭��蕭����筆嚙踝嚙踝蕭***************************************/
 					BookingService bookingSvc = new BookingService();
-					System.out.println("Insert:"+bBean);
+//					System.out.println("Insert:"+bBean);
 					List<BookingBean> bList=null;
 					try {
 						bList = bookingSvc.insert(bBean);
-						for(BookingBean bb : bList) {
-							System.out.println("Book Servlet bb: "+bb.getEmail());
-						}
+//						for(BookingBean bb : bList) {
+//							System.out.println("Book Servlet bb: "+bb.getEmail());
+//						}
 					} catch (SQLException e) {
 						RequestDispatcher failureView = req
 								.getRequestDispatcher("/booking/listManager.jsp");

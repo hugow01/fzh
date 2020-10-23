@@ -50,13 +50,13 @@ public class WorkdateDAOjdbc implements WorkdateDAO_interface {
 
 	
 	public  WorkdateDAOjdbc() {
-		Context ctx;
-		try {
-			ctx = new InitialContext();
-			dataSource = (DataSource) ctx.lookup(dsName);
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
+//		Context ctx;
+//		try {
+//			ctx = new InitialContext();
+//			dataSource = (DataSource) ctx.lookup(dsName);
+//		} catch (NamingException e) {
+//			e.printStackTrace();
+//		}
 		
 		
 	}
@@ -71,9 +71,9 @@ public class WorkdateDAOjdbc implements WorkdateDAO_interface {
 		WorkdateBean bean = null;
 		
 		try {
-//			Class.forName(driver);
-			conn = dataSource.getConnection();
-//			conn=DriverManager.getConnection(URL, USERNAME, PASSWORD);
+			Class.forName(driver);
+//			conn = dataSource.getConnection();
+			conn=DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			stmt=conn.prepareStatement(SELECT_BY_MAN_ID);
 			System.out.println("man_id:"+man_id);
 			stmt.setInt(1, man_id);
@@ -87,7 +87,7 @@ public class WorkdateDAOjdbc implements WorkdateDAO_interface {
 					bean.setWtime(rset.getString("WTIME"));
 					selectList.add(bean);
 				}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}finally {
 			try {
@@ -114,8 +114,8 @@ public class WorkdateDAOjdbc implements WorkdateDAO_interface {
 		
 		try {
 //			Class.forName(driver);
-//			conn=DriverManager.getConnection(URL, USERNAME, PASSWORD);
-			conn = dataSource.getConnection();
+//			conn = dataSource.getConnection();
+			conn=DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			stmt=conn.prepareStatement(SELECT_ALL);
 			rset = stmt.executeQuery();
 			selectList = new ArrayList<WorkdateBean>();
@@ -150,8 +150,8 @@ public class WorkdateDAOjdbc implements WorkdateDAO_interface {
 		ResultSet rset =null; 
 		System.out.println("DAO insert: "+ bean );
 		try {
-//			conn=DriverManager.getConnection(URL,USERNAME,PASSWORD);
-			conn = dataSource.getConnection();
+//			conn = dataSource.getConnection();
+			conn=DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			stmt=conn.prepareStatement(INSERT);
 			
 			if(bean != null) {
@@ -188,8 +188,8 @@ public class WorkdateDAOjdbc implements WorkdateDAO_interface {
 		ResultSet rset =null; 
 		
 		try {
-//			conn=DriverManager.getConnection(URL,USERNAME,PASSWORD);
-			conn = dataSource.getConnection();
+//			conn = dataSource.getConnection();
+			conn=DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			stmt=conn.prepareStatement(DELETE);
 			
 			if(bean != null) {
@@ -225,6 +225,7 @@ public class WorkdateDAOjdbc implements WorkdateDAO_interface {
 		return null;
 	}
 	
+	//Bequals 篩選掉已被預約的時間，只留下可預約的時間
 	public List<WorkdateBean> Bequals(List<BookingBean> bList){
 		WorkdateDAOjdbc workDAO = new WorkdateDAOjdbc();
 		Integer manID = bList.get(0).getMan_id();
@@ -241,7 +242,7 @@ public class WorkdateDAOjdbc implements WorkdateDAO_interface {
 		
 	}
 	
-	
+	//骰選出所有服務人員可被預約的時間
 	public List<WorkdateBean> Bequals() {
 		WorkdateDAOjdbc workDAO = new WorkdateDAOjdbc();
 		List<BookingBean> bList = new BookingDAOjdbc().select_all();
@@ -260,13 +261,15 @@ public class WorkdateDAOjdbc implements WorkdateDAO_interface {
 		return list;
 	}
 	
+	//異想天開地建立了join Manager表的Man_WorkingDate表
 	public List select_all_man() {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs =null; 
 		List<Map> rsList = null;
 		try {
-			conn = dataSource.getConnection();
+//			conn = dataSource.getConnection();
+			conn=DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			stmt=conn.prepareStatement(Select_ALL_W_MAN);
 			rs = stmt.executeQuery();
 			

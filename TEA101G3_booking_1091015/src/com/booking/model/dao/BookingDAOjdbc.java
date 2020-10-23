@@ -2,6 +2,7 @@ package com.booking.model.dao;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,12 +40,12 @@ public class BookingDAOjdbc implements BookingDAO_interface {
 	private static final String SELECT_ALL_MAN = "select * from manager where authority>1";
 	
 	public BookingDAOjdbc(){
-		try {
-			Context ctx = new InitialContext();
-			dataSource =(DataSource) ctx.lookup(dsName);
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Context ctx = new InitialContext();
+//			dataSource =(DataSource) ctx.lookup(dsName);
+//		} catch (NamingException e) {
+//			e.printStackTrace();
+//		}
 		
 	}
 	
@@ -59,9 +60,8 @@ public class BookingDAOjdbc implements BookingDAO_interface {
 
 		try {
 
-			//Class.forName(driver);
-			conn = dataSource.getConnection();
-//			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+//			conn = dataSource.getConnection();
+			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			pstmt = conn.prepareStatement(SELECT_ALL_MAN);
 
 			rs = pstmt.executeQuery();
@@ -121,8 +121,8 @@ public class BookingDAOjdbc implements BookingDAO_interface {
 		List<BookingBean> selectList = new ArrayList();
 		
 		try {
-			conn = dataSource.getConnection();
-//			conn = DriverManager.getConnection(URL,USERNAME,PASSWORD);
+//			conn = dataSource.getConnection();
+			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			stmt = conn.prepareStatement(SELECT_BY_MAN_ID);
 			stmt.setInt(1, man_id);
 			rset = stmt.executeQuery();
@@ -167,9 +167,9 @@ public class BookingDAOjdbc implements BookingDAO_interface {
 				}
 			}
 		}
-		for(BookingBean bBean2: selectList) {
-			System.out.println("DAO"+bBean2);
-		}
+//		for(BookingBean bBean2: selectList) {
+//			System.out.println("DAO"+bBean2);
+//		}
 		return selectList;
 	}
 	
@@ -180,8 +180,8 @@ public class BookingDAOjdbc implements BookingDAO_interface {
 		ResultSet rset = null;
 		
 		try {
-			conn = dataSource.getConnection();
-//			conn = DriverManager.getConnection(URL,USERNAME,PASSWORD);
+//			conn = dataSource.getConnection();
+			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			stmt = conn.prepareStatement(SELECT_BY_ID);
 			stmt.setString(1, booking_id);
 			rset = stmt.executeQuery();
@@ -236,8 +236,8 @@ public class BookingDAOjdbc implements BookingDAO_interface {
 		List<BookingBean> selectList = null;
 		
 		try {
-			conn = dataSource.getConnection();
-//			conn = DriverManager.getConnection(URL,USERNAME,PASSWORD);
+//			conn = dataSource.getConnection();
+			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			stmt = conn.prepareStatement(SELECT_BY_EMAIL);
 			stmt.setString(1, email);
 			selectList = new ArrayList<BookingBean>();
@@ -288,8 +288,8 @@ public class BookingDAOjdbc implements BookingDAO_interface {
 	public List<BookingBean> select_all() {
 		List<BookingBean> result = null;
 		try(
-				Connection conn = dataSource.getConnection();
-//				Connection conn = DriverManager.getConnection(URL,USERNAME,PASSWORD);
+//				Connection conn = dataSource.getConnection();
+				Connection conn = DriverManager.getConnection(URL,USERNAME,PASSWORD);
 				PreparedStatement stmt = conn.prepareStatement(SELECT_ALL);
 				ResultSet rset = stmt.executeQuery();) {
 			
@@ -360,8 +360,8 @@ public class BookingDAOjdbc implements BookingDAO_interface {
 		BookingBean result = null;
 		PreparedStatement stmt = null;
 		try {
-			conn = dataSource.getConnection();
-//			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);		
+//			conn = dataSource.getConnection();
+			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);	
 			stmt = conn.prepareStatement(INSERT);
 			conn.setAutoCommit(false);
 			if(bean!=null) {
@@ -412,8 +412,8 @@ public class BookingDAOjdbc implements BookingDAO_interface {
 		PreparedStatement stmt = null;
 		
 		try {
-			conn = dataSource.getConnection();
-//			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+//			conn = dataSource.getConnection();
+			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 			stmt = conn.prepareStatement(DELETE);
 			stmt.setString(1, booking_id);
 			conn.setAutoCommit(false);
